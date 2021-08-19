@@ -1,7 +1,12 @@
 <template>
   <h1>How full are the bins in Wyndham?</h1>
   <div class="bins-container">
-    <div :key="bin" v-for="bin in bins" :style="gradientStyle(bin)" class="bin">
+    <div
+      :key="bin.properties.bin_detail"
+      v-for="bin in bins"
+      :style="gradientStyle(bin)"
+      class="bin"
+    >
       <p>{{ bin.properties.bin_detail }}</p>
       <p>{{ bin.properties.fill_lvl }}/{{ bin.properties.fill_thres }}</p>
       <p>{{ bin.properties.status }}</p>
