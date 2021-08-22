@@ -1,16 +1,11 @@
 <template>
   <h1>How full are the bins in Wyndham?</h1>
   <div class="bins-container">
-    <div
+    <static-bin
       :key="bin.properties.bin_detail"
       v-for="bin in bins"
-      :style="gradientStyle(bin)"
-      class="bin"
-    >
-      <p>{{ bin.properties.bin_detail }}</p>
-      <p>{{ bin.properties.fill_lvl }}/{{ bin.properties.fill_thres }}</p>
-      <p>{{ bin.properties.status }}</p>
-    </div>
+      :binFeature="bin"
+    />
   </div>
 </template>
 
@@ -18,7 +13,9 @@
 import { defineComponent, onMounted, Ref, ref } from "vue";
 import { BinFeature } from "../global";
 import { fullnessCompareDescending } from "./lib/bin-sort-functions";
-import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
+import { initialiseDatabaseConnection } from "./lib/firestore";
+import StaticBin from "./components/StaticBin.vue";
+// import "./global.css";
 
 const db = initialiseDatabaseConnection();
 
@@ -27,6 +24,9 @@ const BINS_URL =
 
 export default defineComponent({
   name: "App",
+  components: {
+    StaticBin,
+  },
   setup() {
     const bins: Ref<BinFeature[]> = ref([]);
 
@@ -72,26 +72,9 @@ export default defineComponent({
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
 .bins-container {
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-}
-
-.bin {
-  height: 150px;
-  width: 150px;
-  border: 1px solid black;
-  margin: 5px;
-  color: black;
 }
 </style>
