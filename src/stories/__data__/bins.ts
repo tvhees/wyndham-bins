@@ -134,10 +134,10 @@ export const timeSeries = [
             serial_num: 1510830,
             station_num: '1510830'
         },
-        geometry: { coordinates: [Array], type: 'Point' }
+        geometry: { coordinates: [144.6601949611, -37.9018111376], type: 'Point' }
     },
     {
-        geometry: { coordinates: [Array], type: 'Point' },
+        geometry: { coordinates: [144.6601949611, -37.9018111376], type: 'Point' },
         properties: {
             bin_detail: 'Bendigo Bank G Werribee - General Waste',
             lon: '144.66019496114416',
@@ -148,16 +148,16 @@ export const timeSeries = [
             timestamp: '2021-08-21T15:09',
             fill_thres: 6,
             lat: '-37.901811137557594',
-            fill_lvl: 2,
+            fill_lvl: 4,
             age_thres: 0
         },
         type: 'Feature'
     },
     {
-        geometry: { type: 'Point', coordinates: [Array] },
+        geometry: { type: 'Point', coordinates: [144.6601949611, -37.9018111376] },
         properties: {
             position: 'center',
-            fill_lvl: 2,
+            fill_lvl: 6,
             station_num: '1510830',
             age_thres: 0,
             serial_num: 1510830,
@@ -174,7 +174,7 @@ export const timeSeries = [
         properties: {
             lat: '-37.901811137557594',
             serial_num: 1510830,
-            fill_lvl: 2,
+            fill_lvl: 0,
             station_num: '1510830',
             fill_thres: 6,
             age_thres: 0,
@@ -184,12 +184,12 @@ export const timeSeries = [
             bin_detail: 'Bendigo Bank G Werribee - General Waste',
             status: 'NOT_READY'
         },
-        geometry: { coordinates: [Array], type: 'Point' },
+        geometry: { coordinates: [144.6601949611, -37.9018111376], type: 'Point' },
         type: 'Feature'
     },
     {
         type: 'Feature',
-        geometry: { coordinates: [Array], type: 'Point' },
+        geometry: { coordinates: [144.6601949611, -37.9018111376], type: 'Point' },
         properties: {
             age_thres: 0,
             bin_detail: 'Bendigo Bank G Werribee - General Waste',
