@@ -17,6 +17,8 @@
         "src/**/*.ts",
         "src/**/*.d.ts",
         "src/**/*.tsx",
-        "src/**/*.vue"
+        "src/**/*.vue",
+        "vscode/testdata.ts",
+        "global.d.ts"
     ]
 }

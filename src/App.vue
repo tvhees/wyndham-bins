@@ -16,19 +16,14 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from "vue";
-import { BinFeature } from "./global";
+import { BinFeature } from "../global";
+import { fullnessCompareDescending } from "./lib/bin-sort-functions";
+import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
+
+const db = initialiseDatabaseConnection();
+
 const BINS_URL =
   "https://data.gov.au/data/dataset/08531201-ac9f-4f5f-bb7e-ac16b1da28b4/resource/15732b49-3e50-40ce-8dfd-0efed18661f4/download/sb_fill_lvel.json";
-
-const DISPLAY_ORDER = ["FULLNESS", "NOT_READY", "ALERT"];
-type CompareBinsFunction = (a: BinFeature, b: BinFeature) => number;
-const compareStatus: CompareBinsFunction = (a, b) =>
-  DISPLAY_ORDER.indexOf(a.properties.status) -
-  DISPLAY_ORDER.indexOf(b.properties.status);
-
-const compareFullness: CompareBinsFunction = (a, b) =>
-  b.properties.fill_lvl / b.properties.fill_thres -
-  a.properties.fill_lvl / a.properties.fill_thres;
 
 export default defineComponent({
   name: "App",
@@ -36,13 +31,15 @@ export default defineComponent({
     const bins: Ref<BinFeature[]> = ref([]);
 
     const fetchData = async () => {
+      //   const newData = await fetchRecentData(db);
+
       const collection = await fetch(BINS_URL).then((response) =>
         response.json()
       );
 
       const binData = collection.features as BinFeature[];
 
-      bins.value = binData.sort(compareFullness);
+      bins.value = binData.sort(fullnessCompareDescending);
     };
 
     onMounted(fetchData);
@@ -95,6 +92,6 @@ export default defineComponent({
   width: 150px;
   border: 1px solid black;
   margin: 5px;
-  colour: #e0e0e0;
+  color: black;
 }
 </style>

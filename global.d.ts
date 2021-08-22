@@ -1,4 +1,11 @@
 export type BinFeature = Feature<BinProperties>
+export type BinFeatureCollection = FeatureCollection<BinProperties>
+
+interface FeatureCollection<T> {
+    type: 'FeatureCollection'
+    name: string
+    features: Feature<T>[]
+}
 
 interface Feature<T extends FeatureProperties> {
     type: 'Feature'
@@ -7,7 +14,7 @@ interface Feature<T extends FeatureProperties> {
 }
 
 interface FeatureGeometry {
-    coordinates: string[]
+    coordinates: number[]
     type: string
 }
 
