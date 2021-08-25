@@ -1,4 +1,5 @@
 <template>
+  <div>{{ timestamp }}</div>
   <div :style="style" class="bin">
     <p>{{ bin_detail }}</p>
     <p>{{ fill_lvl }}/{{ fill_thres }}</p>
@@ -30,7 +31,7 @@ export default defineComponent({
     const bin = reactive(data[0]);
 
     // Each time our timer ticks, emit the next timestep for the bin
-    const timer$ = wait$(1000);
+    const timer$ = wait$(250);
     const data$ = from(data).pipe(
       concatMap((bin) => of(bin).pipe(concatWith(timer$)))
     );
@@ -38,8 +39,9 @@ export default defineComponent({
     // Assign the new timestep to our reactive property and expose the
     // properties individually
     data$.subscribe((state) => Object.assign(bin, state));
-    const { bin_detail, fill_lvl, fill_thres, status, style } = toRefs(bin);
-    return { bin_detail, fill_lvl, fill_thres, status, style };
+    const { bin_detail, fill_lvl, fill_thres, status, timestamp, style } =
+      toRefs(bin);
+    return { bin_detail, fill_lvl, fill_thres, status, timestamp, style };
   },
 });
 

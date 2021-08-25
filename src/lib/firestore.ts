@@ -1,4 +1,6 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import { BinFeature, BinFeatureCollection } from "../../global";
 
 export const initialiseDatabaseConnection = (): firebase.firestore.Firestore => {
     console.log('Initialising firestore DB');
@@ -10,7 +12,10 @@ export const initialiseDatabaseConnection = (): firebase.firestore.Firestore => 
     return firebase.firestore();
 };
 
-export const fetchRecentData = async (db: firebase.firestore.Firestore) => {
+export const fetchRecentData = async (db: firebase.firestore.Firestore): Promise<BinFeatureCollection[]> => {
     console.log('Fetching collection features from firestore DB');
-    return await db.collection('features').where("type", "==", "FeatureCollection").get();
+
+    const collection = await db.collection('features').where("type", "==", "FeatureCollection").get();
+
+    return collection.docs.map(doc => doc.data()) as BinFeatureCollection[];
 };

@@ -1,21 +1,27 @@
 <template>
   <h1>How full are the bins in Wyndham?</h1>
+  <div v-if="animatedBin.length > 0" class="bin-animated-container">
+    <animated-bin :timeline="animatedBin" />
+  </div>
   <div class="bins-container">
     <static-bin
-      :key="bin.properties.bin_detail"
-      v-for="bin in bins"
+      :key="bin.properties.serial_num"
+      v-for="bin in staticBins"
       :binFeature="bin"
+      @click="() => onSelectBin(bin.properties.serial_num)"
     />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from "vue";
-import { BinFeature } from "../global";
+import { BinFeature, BinFeatureCollection } from "../global";
 import { fullnessCompareDescending } from "./lib/bin-sort-functions";
-import { initialiseDatabaseConnection } from "./lib/firestore";
+import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
 import StaticBin from "./components/StaticBin.vue";
-// import "./global.css";
+import AnimatedBin from "./components/AnimatedBin.vue";
+import "./global.css";
+import { timeSeriesForSerial } from "./lib/transform-data";
 
 const db = initialiseDatabaseConnection();
 
@@ -26,47 +32,32 @@ export default defineComponent({
   name: "App",
   components: {
     StaticBin,
+    AnimatedBin,
   },
   setup() {
-    const bins: Ref<BinFeature[]> = ref([]);
+    const staticBins: Ref<BinFeature[]> = ref([]);
+    const animatedBin: Ref<BinFeature[]> = ref([]);
+    let historicalData: BinFeatureCollection[];
 
     const fetchData = async () => {
-      //   const newData = await fetchRecentData(db);
+      historicalData = await fetchRecentData(db);
 
-      const collection = await fetch(BINS_URL).then((response) =>
+      const freshData = await fetch(BINS_URL).then((response) =>
         response.json()
       );
 
-      const binData = collection.features as BinFeature[];
+      const binData = freshData.features as BinFeature[];
 
-      bins.value = binData.sort(fullnessCompareDescending);
+      staticBins.value = binData.sort(fullnessCompareDescending);
+    };
+
+    const onSelectBin = (serial_num: number) => {
+      animatedBin.value = timeSeriesForSerial(serial_num, historicalData);
     };
 
     onMounted(fetchData);
 
-    const gradientStyle = (bin: BinFeature) => {
-      const fill = (100 * bin.properties.fill_lvl) / bin.properties.fill_thres;
-      const colour = fill > 70 ? "#ff6161" : fill > 25 ? "orange" : "green";
-
-      if (fill > 100) {
-        return {
-          color: "white",
-          background: `repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    darkorange 10px,
-    darkorange 20px
-  ), linear-gradient(0deg, ${colour} ${fill}%, #e0e0e0 ${0}%)`,
-        };
-      }
-
-      return {
-        background: `linear-gradient(0deg, ${colour} ${fill}%, #e0e0e0 ${0}%)`,
-      };
-    };
-
-    return { bins, gradientStyle };
+    return { staticBins, animatedBin, onSelectBin };
   },
 });
 </script>
@@ -76,5 +67,11 @@ export default defineComponent({
   display: flex;
   flex-flow: wrap;
   justify-content: center;
+}
+
+.bin-animated-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
