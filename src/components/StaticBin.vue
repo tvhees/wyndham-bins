@@ -7,29 +7,40 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import { BinFeature } from "../../global";
+import { computed, defineComponent, toRefs } from "vue";
 import "./../global.css";
 
 export default defineComponent({
   name: "StaticBin",
   props: {
-    binFeature: {
-      type: Object as PropType<BinFeature>,
+    bin_detail: {
+      type: String,
+      required: true,
+    },
+    fill_lvl: {
+      type: Number,
+      required: true,
+    },
+    fill_thres: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
       required: true,
     },
   },
   setup(props) {
-    const { bin_detail, fill_lvl, status, fill_thres } =
-      props.binFeature.properties;
-
-    const binStyle = gradientStyle(props.binFeature);
-    return { bin_detail, fill_lvl, status, fill_thres, binStyle };
+    const { fill_lvl, fill_thres } = toRefs(props);
+    const binStyle = computed(() =>
+      gradientStyle(fill_lvl.value, fill_thres.value)
+    );
+    return { binStyle, ...toRefs(props) };
   },
 });
 
-const gradientStyle = (bin: BinFeature) => {
-  const fill = (100 * bin.properties.fill_lvl) / bin.properties.fill_thres;
+const gradientStyle = (fill_lvl: number, fill_thres: number) => {
+  const fill = (100 * fill_lvl) / fill_thres;
   const colour = fill > 70 ? "#ff6161" : fill > 25 ? "orange" : "green";
 
   if (fill > 100) {
