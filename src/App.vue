@@ -1,13 +1,10 @@
 <template>
   <h1>How full are the bins in Wyndham?</h1>
-  <div v-if="animatedBin.length > 0" class="bin-animated-container">
-    <animated-bin :timeline="animatedBin" />
-  </div>
   <div class="bins-container">
     <static-bin
-      :key="bin.properties.serial_num"
       v-for="bin in staticBins"
-      :binFeature="bin"
+      v-bind="bin.properties"
+      :key="bin.properties.serial_num"
       @click="() => onSelectBin(bin.properties.serial_num)"
     />
   </div>
@@ -19,7 +16,6 @@ import { BinFeature, BinFeatureCollection } from "../global";
 import { fullnessCompareDescending } from "./lib/bin-sort-functions";
 import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
 import StaticBin from "./components/StaticBin.vue";
-import AnimatedBin from "./components/AnimatedBin.vue";
 import "./global.css";
 import { timeSeriesForSerial } from "./lib/transform-data";
 
@@ -32,7 +28,6 @@ export default defineComponent({
   name: "App",
   components: {
     StaticBin,
-    AnimatedBin,
   },
   setup() {
     const staticBins: Ref<BinFeature[]> = ref([]);

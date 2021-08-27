@@ -1,10 +1,10 @@
 import StaticBin from '../components/StaticBin.vue';
-import { ref, toRef } from "vue";
-import { tap, repeat } from "rxjs";
+import { ref } from "vue";
+import { repeat } from "rxjs";
 import * as bins from './__data__/bins';
 
 export default {
-  title: 'Bins/Static',
+  title: 'Bins',
   component: StaticBin,
 };
 
@@ -16,8 +16,8 @@ const Template = (args) => ({
   template: '<static-bin v-bind="args" />',
 });
 
-export const Empty = Template.bind({});
-Empty.args = {
+export const Static = Template.bind({});
+Static.args = {
   ...bins.Empty,
 };
 
