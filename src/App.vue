@@ -8,14 +8,21 @@
       @click="() => onSelectBin(bin.properties.serial_num)"
     />
   </div>
+  <div v-if="animatedBin.length">
+    <static-bin
+      v-bind="animatedBin[time].properties"
+    />
+    <timeline-slider :data="animatedBin" @input="onSelectTime"/>
+  </div>
 </template>
 
 <script lang="ts">
+import { BinFeature, BinFeatureCollection } from "bins";
 import { defineComponent, onMounted, Ref, ref } from "vue";
-import { BinFeature, BinFeatureCollection } from "../global";
 import { fullnessCompareDescending } from "./lib/bin-sort-functions";
 import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
 import StaticBin from "./components/StaticBin.vue";
+import TimelineSlider from "./components/TimelineSlider.vue";
 import "./global.css";
 import { timeSeriesForSerial } from "./lib/transform-data";
 
@@ -28,10 +35,12 @@ export default defineComponent({
   name: "App",
   components: {
     StaticBin,
+    TimelineSlider,
   },
   setup() {
     const staticBins: Ref<BinFeature[]> = ref([]);
     const animatedBin: Ref<BinFeature[]> = ref([]);
+    const time: Ref<number> = ref(0);
     let historicalData: BinFeatureCollection[];
 
     const fetchData = async () => {
@@ -50,9 +59,13 @@ export default defineComponent({
       animatedBin.value = timeSeriesForSerial(serial_num, historicalData);
     };
 
+    const onSelectTime = (selectedTime: number) => {
+        time.value = selectedTime;   
+    }
+
     onMounted(fetchData);
 
-    return { staticBins, animatedBin, onSelectBin };
+    return { staticBins, animatedBin, time, onSelectBin, onSelectTime };
   },
 });
 </script>
