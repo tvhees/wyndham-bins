@@ -1,4 +1,4 @@
-import { BinFeature, BinFeatureCollection } from "../../global";
+import { BinFeature, BinFeatureCollection } from "bins";
 import { timestampCompareAscending } from './bin-sort-functions';
 
 export const timeSeriesForSerial = (

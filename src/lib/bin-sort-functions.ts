@@ -1,4 +1,4 @@
-import { BinFeature } from "../../global";
+import { BinFeature } from "bins";
 
 const DISPLAY_ORDER = ["FULLNESS", "NOT_READY", "ALERT"];
 type CompareBinsFunction = (a: BinFeature, b: BinFeature) => number;

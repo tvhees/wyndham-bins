@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
-import { BinFeature, BinFeatureCollection } from "../../global";
+import { BinFeature, BinFeatureCollection } from "bins";
 
 export const initialiseDatabaseConnection = (): firebase.firestore.Firestore => {
     console.log('Initialising firestore DB');

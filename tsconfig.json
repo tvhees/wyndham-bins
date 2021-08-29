@@ -6,11 +6,16 @@
         "strict": true,
         "jsx": "preserve",
         "sourceMap": true,
+        "isolatedModules": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "lib": [
             "esnext",
             "dom"
+        ],
+        "typeRoots": [
+            "types",
+            "node_modules/@types"
         ]
     },
     "include": [
@@ -19,6 +24,6 @@
         "src/**/*.tsx",
         "src/**/*.vue",
         "vscode/testdata.ts",
-        "global.d.ts"
+        "types/global.d.ts"
     ]
 }
