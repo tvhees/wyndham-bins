@@ -8,10 +8,10 @@
             @click="() => onSelectBin(bin.properties.serial_num)"
         />
     </div>
-    <div v-if="animatedBin.length">
-        <static-bin v-bind="animatedBin[time].properties" />
-        <timeline-slider :data="animatedBin" @input="onSelectTime" />
-    </div>
+    <timeline-view
+        v-if="animatedBin.length"
+        :data="animatedBin.map(feature => feature.properties)"
+    />
 </template>
 
 <script lang="ts">
@@ -21,6 +21,7 @@ import { fullnessCompareDescending } from "./lib/bin-sort-functions";
 import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
 import StaticBin from "./components/StaticBin.vue";
 import TimelineSlider from "./components/TimelineSlider.vue";
+import TimelineView from "./components/TimelineView.vue";
 import "./global.css";
 import { timeSeriesForSerial } from "./lib/transform-data";
 
@@ -34,6 +35,7 @@ export default defineComponent({
     components: {
         StaticBin,
         TimelineSlider,
+        TimelineView
     },
     setup() {
         const staticBins: Ref<BinFeature[]> = ref([]);
