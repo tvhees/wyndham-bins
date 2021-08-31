@@ -15,7 +15,9 @@ export const initialiseDatabaseConnection = (): firebase.firestore.Firestore => 
 export const fetchRecentData = async (db: firebase.firestore.Firestore): Promise<BinFeatureCollection[]> => {
     console.log('Fetching collection features from firestore DB');
 
-    const collection = await db.collection('features').where("type", "==", "FeatureCollection").get();
+    const collection = await db.collection('features')
+        .where("type", "==", "FeatureCollection")
+        .get();
 
     return collection.docs.map(doc => doc.data()) as BinFeatureCollection[];
 };

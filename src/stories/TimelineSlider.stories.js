@@ -1,4 +1,7 @@
 import TimelineSlider from "../components/TimelineSlider.vue";
+import TimestampDisplay from "../components/TimestampDisplay.vue";
+import * as bins from './__data__/bins';
+import { ref } from "vue";
 
 export default {
   title: 'Slider',
@@ -6,14 +9,22 @@ export default {
 };
 
 const Template = (args) => ({
-  components: { TimelineSlider },
+  components: { TimelineSlider, TimestampDisplay },
     setup() {
-    return { args };
+        const selection = ref(args.data[args.data.length - 1].timestamp);
+        const onInput = (i) => {
+            selection.value = args.data[i].timestamp;
+        }
+        return { args, onInput, selection };
   },
-  template: '<timeline-slider v-bind="args" />',
+    template: `
+    <div>
+        <timeline-slider v-bind="args" @input="onInput" />
+        <timestamp-display :timestamp="selection" />
+    </div>`,
 });
 
 export const Default = Template.bind({ })
 Default.args = {
-    data: [1, 2, 3]
+    data: bins.historicalData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
 };
