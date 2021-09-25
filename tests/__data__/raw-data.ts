@@ -1,6 +1,4 @@
-import { BinFeatureCollection } from "../../global";
-
-export const data: BinFeatureCollection[] = [
+export const data = [
     {
         "type": "FeatureCollection",
         "features": [
