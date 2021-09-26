@@ -1,5 +1,5 @@
 <template>
-    <h1>How full are the bins in Wyndham?</h1>
+    <app-header />
     <div class="bins-container">
         <bin-button
             v-for="bin in staticBins"
@@ -19,6 +19,7 @@ import { fullnessCompareDescending } from "./lib/bin-sort-functions";
 import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
 import "./global.css";
 import { timeSeriesForSerial } from "./lib/transform-data";
+import AppHeader from "./components/AppHeader.vue";
 import BinButton from "./components/bin-button/BinButton.vue";
 
 const db = initialiseDatabaseConnection();
@@ -29,6 +30,7 @@ const BINS_URL =
 export default defineComponent({
     name: "App",
     components: {
+        AppHeader,
         BinButton
     },
     setup() {
