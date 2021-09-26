@@ -1,4 +1,4 @@
-import BinButton from "../components/bin-button/BinButton.vue";
+import BinButton from "../components/BinButton.vue";
 
 export default {
   title: 'Bins/Button',
@@ -25,6 +25,7 @@ const Template = (args) => ({
   },
   template: '<bin-button v-bind="args" />',
 });
+
 
 export const Static = Template.bind({});
 Static.args = {

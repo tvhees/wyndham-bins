@@ -1,26 +1,18 @@
 <template>
     <app-header />
     <div class="bins-container">
-        <bin-button
-            v-for="bin in staticBins"
-            :binType="bin.properties.bin_detail.match(/\sR\s/) ? 'recycling' : 'garbage'"
-            :fillPercent="bin.properties.fill_lvl / bin.properties.fill_thres"
-            :alert="bin.properties.status === 'ALERT'"
-            :key="bin.properties.serial_num"
-            @click="() => onSelectBin(bin.properties.serial_num)"
-        />
+        <bin-location v-for="location in locations" :key="location.location" v-bind="location" />
     </div>
 </template>
 
 <script lang="ts">
-import { BinFeature, BinFeatureCollection } from "bins";
+import { BinFeatureCollection, LocationGroup } from "bins";
 import { defineComponent, onMounted, Ref, ref } from "vue";
-import { fullnessCompareDescending } from "./lib/bin-sort-functions";
 import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
 import "./global.css";
-import { timeSeriesForSerial } from "./lib/transform-data";
+import { groupByLocation } from "./lib/transform-data";
 import AppHeader from "./components/AppHeader.vue";
-import BinButton from "./components/bin-button/BinButton.vue";
+import BinLocation from "./components/BinLocation.vue";
 
 const db = initialiseDatabaseConnection();
 
@@ -31,15 +23,13 @@ export default defineComponent({
     name: "App",
     components: {
         AppHeader,
-        BinButton
+        BinLocation
     },
     setup() {
-        const staticBins: Ref<BinFeature[]> = ref([]);
-        const animatedBin: Ref<BinFeature[]> = ref([]);
-        const time: Ref<number> = ref(0);
+        const locations: Ref<LocationGroup[]> = ref([]);
         let historicalData: BinFeatureCollection[];
 
-        const fetchData = async () => {
+        const fetchHistoricalData = async () => {
             historicalData = await fetchRecentData(db);
 
             const serialNum = 1511209;
@@ -50,26 +40,20 @@ export default defineComponent({
                 feature => feature.properties
             ).sort(
                 (a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp)
-            ).slice(0, 23)
-                ;
-            console.log({ data });
+            ).slice(0, 23);
+        }
 
+        const fetchFreshData = async () => {
             const freshData = await fetch(BINS_URL)
                 .then((response) => response.json()
                 );
 
-            const binData = freshData.features as BinFeature[];
-
-            staticBins.value = binData.sort(fullnessCompareDescending);
+            locations.value = Object.values(groupByLocation(freshData));
         };
 
-        const onSelectBin = (serial_num: number) => {
-            animatedBin.value = timeSeriesForSerial(serial_num, historicalData);
-        };
+        onMounted(fetchFreshData);
 
-        onMounted(fetchData);
-
-        return { staticBins, animatedBin, onSelectBin };
+        return { locations };
     },
 });
 </script>

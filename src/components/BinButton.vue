@@ -19,7 +19,7 @@ interface BinProps {
     fillPercent: number
     alert: boolean
 }
-import { COLOURS } from '../../lib/guidelines';
+import { COLOURS } from '../lib/guidelines';
 
 const props = defineProps<BinProps>();
 const typeIcon = `#icon-${props.binType}`;
@@ -32,11 +32,12 @@ const fillColour = props.fillPercent > 0.8 ? COLOURS.ALERT : props.fillPercent >
     height: 85px;
     width: 85px;
     border-radius: 4px;
-    border: 1px solid black;
     margin: 5px;
     color: black;
     position: relative;
     overflow: hidden;
+    border: 0.453938px solid #b3cee2;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 .fill,
@@ -86,5 +87,6 @@ const fillColour = props.fillPercent > 0.8 ? COLOURS.ALERT : props.fillPercent >
 
 .content p {
     margin: 0;
+    text-align: center;
 }
 </style>

@@ -34,4 +34,11 @@ declare module 'bins' {
         status: string
         timestamp: string
     }
+
+    interface LocationGroup {
+        region: string
+        location: string
+        garbage?: BinFeature
+        recycling?: BinFeature
+    }
 }
