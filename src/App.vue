@@ -8,6 +8,7 @@
             @click="() => onSelectBin(bin.properties.serial_num)"
         />
     </div>
+    <bin-button :fillPercent="0.55" :binType="'garbage'" :alert="true" />
     <timeline-view
         v-if="animatedBin.length"
         :data="animatedBin.map(feature => feature.properties)"
@@ -24,6 +25,7 @@ import TimelineSlider from "./components/TimelineSlider.vue";
 import TimelineView from "./components/TimelineView.vue";
 import "./global.css";
 import { timeSeriesForSerial } from "./lib/transform-data";
+import BinButton from "./components/bin-button/BinButton.vue";
 
 const db = initialiseDatabaseConnection();
 
@@ -35,7 +37,8 @@ export default defineComponent({
     components: {
         StaticBin,
         TimelineSlider,
-        TimelineView
+        TimelineView,
+        BinButton
     },
     setup() {
         const staticBins: Ref<BinFeature[]> = ref([]);

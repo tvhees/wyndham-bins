@@ -1,4 +1,6 @@
 import '../src/global.css';
+import example from '../src/icons/example.svg';
+example;
 
 export const parameters = {
     actions: { argTypesRegex: "^on[A-Z].*" },
