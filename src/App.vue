@@ -1,9 +1,11 @@
 <template>
     <h1>How full are the bins in Wyndham?</h1>
     <div class="bins-container">
-        <static-bin
+        <bin-button
             v-for="bin in staticBins"
-            v-bind="bin.properties"
+            :binType="bin.properties.bin_detail.match(/\sR\s/) ? 'recycling' : 'garbage'"
+            :fillPercent="bin.properties.fill_lvl / bin.properties.fill_thres"
+            :alert="bin.properties.status === 'ALERT'"
             :key="bin.properties.serial_num"
             @click="() => onSelectBin(bin.properties.serial_num)"
         />
@@ -61,9 +63,9 @@ export default defineComponent({
                 ;
             console.log({ data });
 
-            const freshData = await fetch(BINS_URL).then((response) =>
-                response.json()
-            );
+            const freshData = await fetch(BINS_URL)
+                .then((response) => response.json()
+                );
 
             const binData = freshData.features as BinFeature[];
 
@@ -74,13 +76,9 @@ export default defineComponent({
             animatedBin.value = timeSeriesForSerial(serial_num, historicalData);
         };
 
-        const onSelectTime = (selectedTime: number) => {
-            time.value = selectedTime;
-        }
-
         onMounted(fetchData);
 
-        return { staticBins, animatedBin, time, onSelectBin, onSelectTime };
+        return { staticBins, animatedBin, onSelectBin };
     },
 });
 </script>

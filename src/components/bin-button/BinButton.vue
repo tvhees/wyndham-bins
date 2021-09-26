@@ -2,10 +2,12 @@
     <div class="bin">
         <div class="fill"></div>
         <div class="content">
-            <svg>
-                <use xlink:href="#icon-example" />
+            <svg v-if="alert" class="icon-alert">
+                <use xlink:href="#icon-alert" />
             </svg>
-            <img :src="typeIcon" alt="Garbage Icon" />
+            <svg class="icon-type">
+                <use v-bind:xlink:href="typeIcon" />
+            </svg>
             <p>{{ fillHeight }}</p>
         </div>
     </div>
@@ -15,15 +17,16 @@
 interface BinProps {
     binType: string
     fillPercent: number
+    alert: boolean
 }
-
-import garbageImg from "./garbage.png";
-import recyclingImg from "./recycling.png";
+const COLOR_RED = '#BA0000';
+const COLOR_ORANGE = '#FBC756';
+const COLOR_GREEN = '#76CA66';
 
 const props = defineProps<BinProps>();
-const typeIcon = props.binType === 'garbage' ? garbageImg : recyclingImg
+const typeIcon = `#icon-${props.binType}`;
 const fillHeight = `${Math.round(100 * props.fillPercent)}%`;
-const fillColour = props.fillPercent > 0.8 ? '#eb5757' : props.fillPercent > 0.3 ? '#e2b93b' : '#27ae60'
+const fillColour = props.fillPercent > 0.8 ? COLOR_RED : props.fillPercent > 0.3 ? COLOR_ORANGE : COLOR_GREEN;
 </script>
 
 <style>
@@ -56,10 +59,23 @@ const fillColour = props.fillPercent > 0.8 ? '#eb5757' : props.fillPercent > 0.3
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    color: v-bind('fillColour === COLOR_RED ? "white" : "black"');
 }
 
-.content svg {
-    fill: black;
+.content .icon-type {
+    fill: v-bind('fillColour === COLOR_RED ? "white" : "black"');
+    stroke: v-bind('fillColour === COLOR_RED ? "white" : "black"');
+    width: 50px;
+    height: 50px;
+}
+
+.content .icon-alert {
+    position: absolute;
+    top: 0;
+    right: 0;
+    fill: v-bind('fillColour === COLOR_RED ? "white" : COLOR_RED');
+    width: 30px;
+    height: 30px;
 }
 
 .content p {
