@@ -10,11 +10,6 @@
             @click="() => onSelectBin(bin.properties.serial_num)"
         />
     </div>
-    <bin-button :fillPercent="0.55" :binType="'garbage'" :alert="true" />
-    <timeline-view
-        v-if="animatedBin.length"
-        :data="animatedBin.map(feature => feature.properties)"
-    />
 </template>
 
 <script lang="ts">
@@ -22,9 +17,6 @@ import { BinFeature, BinFeatureCollection } from "bins";
 import { defineComponent, onMounted, Ref, ref } from "vue";
 import { fullnessCompareDescending } from "./lib/bin-sort-functions";
 import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
-import StaticBin from "./components/StaticBin.vue";
-import TimelineSlider from "./components/TimelineSlider.vue";
-import TimelineView from "./components/TimelineView.vue";
 import "./global.css";
 import { timeSeriesForSerial } from "./lib/transform-data";
 import BinButton from "./components/bin-button/BinButton.vue";
@@ -37,9 +29,6 @@ const BINS_URL =
 export default defineComponent({
     name: "App",
     components: {
-        StaticBin,
-        TimelineSlider,
-        TimelineView,
         BinButton
     },
     setup() {
