@@ -19,14 +19,12 @@ interface BinProps {
     fillPercent: number
     alert: boolean
 }
-const COLOR_RED = '#BA0000';
-const COLOR_ORANGE = '#FBC756';
-const COLOR_GREEN = '#76CA66';
+import { COLOURS } from '../../lib/guidelines';
 
 const props = defineProps<BinProps>();
 const typeIcon = `#icon-${props.binType}`;
 const fillHeight = `${Math.round(100 * props.fillPercent)}%`;
-const fillColour = props.fillPercent > 0.8 ? COLOR_RED : props.fillPercent > 0.3 ? COLOR_ORANGE : COLOR_GREEN;
+const fillColour = props.fillPercent > 0.8 ? COLOURS.ALERT : props.fillPercent > 0.3 ? COLOURS.WARN : COLOURS.SUCCESS;
 </script>
 
 <style>
@@ -59,12 +57,18 @@ const fillColour = props.fillPercent > 0.8 ? COLOR_RED : props.fillPercent > 0.3
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    color: v-bind('fillColour === COLOR_RED ? "white" : "black"');
+    color: v-bind(
+        "fillColour === COLOURS.ALERT ? COLOURS.WHITE : COLOURS.BLACK"
+    );
 }
 
 .content .icon-type {
-    fill: v-bind('fillColour === COLOR_RED ? "white" : "black"');
-    stroke: v-bind('fillColour === COLOR_RED ? "white" : "black"');
+    fill: v-bind(
+        "fillColour === COLOURS.ALERT ? COLOURS.WHITE : COLOURS.BLACK"
+    );
+    stroke: v-bind(
+        "fillColour === COLOURS.ALERT ? COLOURS.WHITE : COLOURS.BLACK"
+    );
     width: 50px;
     height: 50px;
 }
@@ -73,7 +77,9 @@ const fillColour = props.fillPercent > 0.8 ? COLOR_RED : props.fillPercent > 0.3
     position: absolute;
     top: 0;
     right: 0;
-    fill: v-bind('fillColour === COLOR_RED ? "white" : COLOR_RED');
+    fill: v-bind(
+        "fillColour === COLOURS.ALERT ? COLOURS.WHITE : COLOURS.ALERT"
+    );
     width: 30px;
     height: 30px;
 }
