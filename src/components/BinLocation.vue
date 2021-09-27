@@ -44,6 +44,9 @@ const props = defineProps<LocationProps>();
 }
 
 .bin-location > p {
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 400;
     width: 100px;
     text-align: left;
 }

@@ -1,5 +1,7 @@
 <template>
     <app-header />
+    <call-to-action />
+    <swipe-options :options="['Point Cook', 'Werribee']" />
     <div class="bins-container">
         <bin-location v-for="location in locations" :key="location.location" v-bind="location" />
     </div>
@@ -12,6 +14,8 @@ import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
 import "./global.css";
 import { groupByLocation } from "./lib/transform-data";
 import AppHeader from "./components/AppHeader.vue";
+import CallToAction from "./components/CallToAction.vue";
+import SwipeOptions from "./components/SwipeOptions.vue";
 import BinLocation from "./components/BinLocation.vue";
 
 const db = initialiseDatabaseConnection();
@@ -23,6 +27,8 @@ export default defineComponent({
     name: "App",
     components: {
         AppHeader,
+        CallToAction,
+        SwipeOptions,
         BinLocation
     },
     setup() {
