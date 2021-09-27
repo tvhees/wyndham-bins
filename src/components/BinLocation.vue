@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BinFeature } from "bins";
+import type { BinFeature } from "bins";
 import BinButton from "./BinButton.vue";
 import { COLOURS } from "../lib/guidelines";
 
