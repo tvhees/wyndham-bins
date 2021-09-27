@@ -1,13 +1,17 @@
 <script lang="ts" setup>
-import { ref } from "vue";
 import { COLOURS } from "../lib/guidelines";
 
 interface OptionsProps {
-    options: string[]
+    options: string[],
+    selected: string
+}
+
+interface OptionsEmits {
+    (e: 'update:selected', selected: string): void
 }
 
 const props = defineProps<OptionsProps>();
-const picked = ref(props.options[0]);
+const emit = defineEmits<OptionsEmits>();
 
 const generateId = (option: string) => option.replace(' ', '').toLowerCase();
 </script>
@@ -20,7 +24,8 @@ const generateId = (option: string) => option.replace(' ', '').toLowerCase();
                 :id="generateId(option)"
                 :name="option"
                 :value="option"
-                v-model="picked"
+                :checked="props.selected === option"
+                @change="$emit('update:selected', $event.target.value);"
             />
             <label :for="generateId(option)">{{ option }}</label>
         </div>

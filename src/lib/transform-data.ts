@@ -20,9 +20,7 @@ export const groupByLocation = (binFeatures: BinFeatureCollection) => {
     const regexp = /(.*)\s([GR])\s(.*)/;
     return binFeatures.features.reduce((locations: Record<string, LocationGroup>, feature) => {
         const detail = feature.properties.bin_detail;
-        console.log(detail);
         const matches = regexp.exec(detail);
-        console.log(matches)
         const [_, location, type, region] = matches!;
         const binType = type === 'G' ? 'garbage' : 'recycling'
         if (!locations[location]) {

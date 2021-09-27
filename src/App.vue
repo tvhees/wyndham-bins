@@ -1,27 +1,26 @@
 <template>
     <app-header />
     <call-to-action />
-    <swipe-options :options="['Point Cook', 'Werribee']" />
+    <swipe-options :options="['Point Cook', 'Werribee']" v-model:selected="region" />
     <div class="bins-container">
-        <bin-location v-for="location in locations" :key="location.location" v-bind="location" />
+        <bin-location
+            v-for="location in locations
+            .filter(location => location.region === region)"
+            :key="location.location"
+            v-bind="location"
+        />
     </div>
 </template>
 
 <script lang="ts">
-import { BinFeatureCollection, LocationGroup } from "bins";
+import { LocationGroup } from "bins";
 import { defineComponent, onMounted, Ref, ref } from "vue";
-import { fetchRecentData, initialiseDatabaseConnection } from "./lib/firestore";
 import "./global.css";
-import { groupByLocation } from "./lib/transform-data";
 import AppHeader from "./components/AppHeader.vue";
 import CallToAction from "./components/CallToAction.vue";
 import SwipeOptions from "./components/SwipeOptions.vue";
 import BinLocation from "./components/BinLocation.vue";
-
-const db = initialiseDatabaseConnection();
-
-const BINS_URL =
-    "https://data.gov.au/data/dataset/08531201-ac9f-4f5f-bb7e-ac16b1da28b4/resource/15732b49-3e50-40ce-8dfd-0efed18661f4/download/sb_fill_lvel.json";
+import { fetchFreshData } from "./lib/api-calls";
 
 export default defineComponent({
     name: "App",
@@ -33,47 +32,24 @@ export default defineComponent({
     },
     setup() {
         const locations: Ref<LocationGroup[]> = ref([]);
-        let historicalData: BinFeatureCollection[];
 
-        const fetchHistoricalData = async () => {
-            historicalData = await fetchRecentData(db);
+        onMounted(async () => {
+            locations.value = (await fetchFreshData())
+                .sort((a, b) => a.location.localeCompare(b.location));
+        });
 
-            const serialNum = 1511209;
-            const data = historicalData.flatMap(
-                collection => collection.features.filter(
-                    feature => feature.properties.serial_num === serialNum)
-            ).map(
-                feature => feature.properties
-            ).sort(
-                (a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp)
-            ).slice(0, 23);
-        }
+        const region = ref('Point Cook');
 
-        const fetchFreshData = async () => {
-            const freshData = await fetch(BINS_URL)
-                .then((response) => response.json()
-                );
-
-            locations.value = Object.values(groupByLocation(freshData));
-        };
-
-        onMounted(fetchFreshData);
-
-        return { locations };
+        return { locations, region };
     },
 });
 </script>
 
 <style>
 .bins-container {
+    width: 100vw;
     display: flex;
     flex-flow: wrap;
     justify-content: center;
-}
-
-.bin-animated-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 </style>
