@@ -37,7 +37,11 @@ onMounted(async () => {
 });
 
 let region = ref('Point Cook');
-const handleSwipe = (_direction: Swipe) => {
+const handleSwipe = (direction: Swipe) => {
+    if (direction === Swipe.TOP || direction === Swipe.BOTTOM) {
+        return;
+    }
+
     if (region.value === 'Point Cook') {
         region.value = 'Werribee';
     } else {
