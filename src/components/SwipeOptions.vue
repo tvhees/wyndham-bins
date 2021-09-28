@@ -11,7 +11,7 @@ interface OptionsEmits {
 }
 
 const props = defineProps<OptionsProps>();
-const emit = defineEmits<OptionsEmits>();
+defineEmits<OptionsEmits>();
 
 const generateId = (option: string) => option.replace(' ', '').toLowerCase();
 </script>

@@ -13,7 +13,8 @@
     "dayjs": "^1.10.7",
     "firebase": "^8.10.0",
     "rxjs": "^7.3.0",
-    "vue": "^3.2.18"
+    "vue": "^3.2.18",
+    "vue3-touch-events": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",

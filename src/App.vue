@@ -2,7 +2,7 @@
     <app-header />
     <call-to-action />
     <swipe-options :options="['Point Cook', 'Werribee']" v-model:selected="region" />
-    <div class="bins-container">
+    <div class="bins-container" v-touch:swipe="handleSwipe">
         <bin-location
             v-for="location in locations
             .filter(location => location.region === region)"
@@ -12,37 +12,36 @@
     </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { LocationGroup } from "bins";
-import { defineComponent, onMounted, Ref, ref } from "vue";
+import { computed, onMounted, Ref, ref } from "vue";
 import "./global.css";
 import AppHeader from "./components/AppHeader.vue";
 import CallToAction from "./components/CallToAction.vue";
 import SwipeOptions from "./components/SwipeOptions.vue";
 import BinLocation from "./components/BinLocation.vue";
 import { fetchFreshData } from "./lib/api-calls";
+enum Swipe {
+    LEFT = 'left',
+    RIGHT = 'right',
+    TOP = 'top',
+    BOTTOM = 'bottom'
+};
+let locations: LocationGroup[] = $ref([]);
 
-export default defineComponent({
-    name: "App",
-    components: {
-        AppHeader,
-        CallToAction,
-        SwipeOptions,
-        BinLocation
-    },
-    setup() {
-        const locations: Ref<LocationGroup[]> = ref([]);
-
-        onMounted(async () => {
-            locations.value = (await fetchFreshData())
-                .sort((a, b) => a.location.localeCompare(b.location));
-        });
-
-        const region = ref('Point Cook');
-
-        return { locations, region };
-    },
+onMounted(async () => {
+    locations = (await fetchFreshData())
+        .sort((a, b) => a.location.localeCompare(b.location));
 });
+
+let region = $ref('Point Cook');
+const handleSwipe = (_direction: Swipe) => {
+    if (region === 'Point Cook') {
+        region = 'Werribee';
+    } else {
+        region = 'Point Cook';
+    }
+};
 </script>
 
 <style>
