@@ -4,5 +4,9 @@ import svgSpritePlugin from 'vite-plugin-svg-sprite-component'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue({ refTransform: true }), svgSpritePlugin({ symbolId: (name) => "icon-" + name })]
+    plugins: [
+        vue(),
+        svgSpritePlugin({
+            symbolId: (name) => "icon-" + name
+        })]
 })

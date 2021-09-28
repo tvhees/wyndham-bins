@@ -13,33 +13,35 @@
 </template>
 
 <script lang="ts" setup>
-import { LocationGroup } from "bins";
-import { computed, onMounted, Ref, ref } from "vue";
+import type { LocationGroup } from "bins";
+import { onMounted, ref } from "vue";
 import "./global.css";
 import AppHeader from "./components/AppHeader.vue";
 import CallToAction from "./components/CallToAction.vue";
 import SwipeOptions from "./components/SwipeOptions.vue";
 import BinLocation from "./components/BinLocation.vue";
 import { fetchFreshData } from "./lib/api-calls";
+
 enum Swipe {
     LEFT = 'left',
     RIGHT = 'right',
     TOP = 'top',
     BOTTOM = 'bottom'
 };
-let locations: LocationGroup[] = $ref([]);
+
+let locations = ref<LocationGroup[]>([]);
 
 onMounted(async () => {
-    locations = (await fetchFreshData())
+    locations.value = (await fetchFreshData())
         .sort((a, b) => a.location.localeCompare(b.location));
 });
 
-let region = $ref('Point Cook');
+let region = ref('Point Cook');
 const handleSwipe = (_direction: Swipe) => {
-    if (region === 'Point Cook') {
-        region = 'Werribee';
+    if (region.value === 'Point Cook') {
+        region.value = 'Werribee';
     } else {
-        region = 'Point Cook';
+        region.value = 'Point Cook';
     }
 };
 </script>
