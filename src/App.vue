@@ -70,7 +70,7 @@ const handleSwipe = (_direction: Swipe) => {
 
 .list-enter-active,
 .list-leave-active {
-    transition: all 0.25s ease;
+    transition: all 0.25s ease-in-out;
 }
 
 .list-enter-from.transition-left,
