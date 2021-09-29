@@ -67,9 +67,6 @@ const fillColour = props.fillPercent > 0.8 ? COLOURS.ALERT : props.fillPercent >
     fill: v-bind(
         "fillColour === COLOURS.ALERT ? COLOURS.WHITE : COLOURS.BLACK"
     );
-    stroke: v-bind(
-        "fillColour === COLOURS.ALERT ? COLOURS.WHITE : COLOURS.BLACK"
-    );
     width: 50px;
     height: 50px;
 }
@@ -87,6 +84,7 @@ const fillColour = props.fillPercent > 0.8 ? COLOURS.ALERT : props.fillPercent >
 
 .content p {
     margin: 0;
+    margin-right: -0.4em;
     text-align: center;
 }
 </style>
