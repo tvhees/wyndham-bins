@@ -2,14 +2,28 @@
     <app-header />
     <call-to-action />
     <swipe-options :options="['Point Cook', 'Werribee']" v-model:selected="region" />
-    <div class="bins-container" v-touch:swipe="handleSwipe">
-        <bin-location
-            v-for="location in locations
-            .filter(location => location.region === region)"
-            :key="location.location"
-            v-bind="location"
-        />
-    </div>
+    <transition name="list" mode="out-in">
+        <div
+            class="bins-container transition-left"
+            v-touch:swipe="handleSwipe"
+            v-if="region === 'Point Cook'"
+        >
+            <bin-location
+                v-for="location in locations
+                .filter(location => location.region === 'Point Cook')"
+                :key="location.location"
+                v-bind="location"
+            />
+        </div>
+        <div class="bins-container transition-right" v-touch:swipe="handleSwipe" v-else>
+            <bin-location
+                v-for="location in locations
+                .filter(location => location.region === 'Werribee')"
+                :key="location.location"
+                v-bind="location"
+            />
+        </div>
+    </transition>
 </template>
 
 <script lang="ts" setup>
@@ -52,5 +66,25 @@ const handleSwipe = (_direction: Swipe) => {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
+}
+
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.25s ease;
+}
+
+.list-enter-from.transition-left,
+.list-leave-to.transition-left {
+    transform: translateX(-100vw);
+}
+
+.list-enter-from.transition-right,
+.list-leave-to.transition-right {
+    transform: translateX(100vw);
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
 }
 </style>
