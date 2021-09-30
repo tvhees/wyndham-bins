@@ -39,7 +39,6 @@ const generateId = (option: string) => option.replace(' ', '').toLowerCase();
     justify-content: stretch;
     width: 90%;
     max-width: 380px;
-    margin: 0px 20px 20px 20px;
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
@@ -47,6 +46,7 @@ const generateId = (option: string) => option.replace(' ', '').toLowerCase();
 
 .label-container div {
     flex: 1;
+    overflow: hidden;
 }
 
 input {
@@ -66,10 +66,20 @@ label {
     color: v-bind("COLOURS.GREY_6");
     padding: 3px 5px 5px;
     display: block;
+    transition: transform 0.1s;
+}
+
+label:hover,
+input:focus ~ label {
+    z-index: 999;
+    transform: scale(1.1);
+    color: v-bind("COLOURS.PRIMARY");
 }
 
 input:checked ~ label {
     color: v-bind("COLOURS.WHITE");
     background-color: v-bind("COLOURS.PRIMARY");
+    transform: scale(1);
+    z-index: 0;
 }
 </style>
