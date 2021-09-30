@@ -36,8 +36,8 @@ const fillColour = props.fillPercent > 0.8 ? COLOURS.ALERT : props.fillPercent >
     color: black;
     position: relative;
     overflow: hidden;
-    border: 0.453938px solid #b3cee2;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+    border: 0.5px solid v-bind("COLOURS.GREY_6");
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.15);
 }
 
 .fill,

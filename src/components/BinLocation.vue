@@ -35,12 +35,13 @@ const props = defineProps<LocationProps>();
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 20px;
-    width: 344px;
-    margin: 0px 10px 20px;
+    padding: 10px 20px;
+    width: 324px;
+    margin: 0px 10px 15px;
     background-color: v-bind("COLOURS.WHITE");
     border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
+    /* border: 1px solid v-bind("COLOURS.GREY_6"); */
 }
 
 .bin-location > p {

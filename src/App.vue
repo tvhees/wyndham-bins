@@ -1,7 +1,8 @@
 <template>
     <app-header />
-    <call-to-action />
-    <swipe-options :options="['Point Cook', 'Werribee']" v-model:selected="region" />
+    <div class="sticky">
+        <swipe-options :options="['Point Cook', 'Werribee']" v-model:selected="region" />
+    </div>
     <transition name="list" mode="out-in">
         <div
             class="bins-container transition-left"
@@ -35,7 +36,7 @@ import CallToAction from "./components/CallToAction.vue";
 import SwipeOptions from "./components/SwipeOptions.vue";
 import BinLocation from "./components/BinLocation.vue";
 import { fetchFreshData } from "./lib/api-calls";
-
+import { COLOURS } from "./lib/guidelines";
 enum Swipe {
     LEFT = 'left',
     RIGHT = 'right',
@@ -61,6 +62,17 @@ const handleSwipe = (_direction: Swipe) => {
 </script>
 
 <style>
+.sticky {
+    position: sticky;
+    top: 0px;
+    background: linear-gradient(
+        v-bind("COLOURS.GREY_7") 50%,
+        rgba(255, 255, 255, 0)
+    );
+    padding: 30px 10px;
+    z-index: 10;
+}
+
 .bins-container {
     width: 100vw;
     display: flex;
@@ -70,7 +82,7 @@ const handleSwipe = (_direction: Swipe) => {
 
 .list-enter-active,
 .list-leave-active {
-    transition: all 0.25s ease-in-out;
+    transition: all 0.15s ease;
 }
 
 .list-enter-from.transition-left,
