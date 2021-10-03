@@ -32,7 +32,6 @@ import type { LocationGroup } from "bins";
 import { onMounted, ref } from "vue";
 import "./global.css";
 import AppHeader from "./components/AppHeader.vue";
-import CallToAction from "./components/CallToAction.vue";
 import SwipeOptions from "./components/SwipeOptions.vue";
 import BinLocation from "./components/BinLocation.vue";
 import { fetchFreshData } from "./lib/api-calls";
