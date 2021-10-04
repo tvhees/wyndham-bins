@@ -1,30 +1,24 @@
 <template>
     <app-header />
     <div class="sticky">
-        <swipe-options :options="['Point Cook', 'Werribee']" v-model:selected="region" />
+        <region-options :options="['Point Cook', 'Werribee']" v-model:selected="region" />
     </div>
-    <transition name="list" mode="out-in">
-        <div
-            class="bins-container transition-left"
-            v-touch:swipe="handleSwipe"
-            v-if="region === 'Point Cook'"
-        >
-            <bin-location
-                v-for="location in locations
-                .filter(location => location.region === 'Point Cook')"
-                :key="location.location"
-                v-bind="location"
-            />
-        </div>
-        <div class="bins-container transition-right" v-touch:swipe="handleSwipe" v-else>
-            <bin-location
-                v-for="location in locations
-                .filter(location => location.region === 'Werribee')"
-                :key="location.location"
-                v-bind="location"
-            />
-        </div>
-    </transition>
+    <div class="bins-container transition-left" v-if="region === 'Point Cook'">
+        <bin-location
+            v-for="location in locations
+            .filter(location => location.region === 'Point Cook')"
+            :key="location.location"
+            v-bind="location"
+        />
+    </div>
+    <div class="bins-container transition-right" v-else>
+        <bin-location
+            v-for="location in locations
+            .filter(location => location.region === 'Werribee')"
+            :key="location.location"
+            v-bind="location"
+        />
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -32,16 +26,10 @@ import type { LocationGroup } from "bins";
 import { onMounted, ref } from "vue";
 import "./global.css";
 import AppHeader from "./components/AppHeader.vue";
-import SwipeOptions from "./components/SwipeOptions.vue";
+import RegionOptions from "./components/RegionOptions.vue";
 import BinLocation from "./components/BinLocation.vue";
 import { fetchFreshData } from "./lib/api-calls";
 import { COLOURS } from "./lib/guidelines";
-enum Swipe {
-    LEFT = 'left',
-    RIGHT = 'right',
-    TOP = 'top',
-    BOTTOM = 'bottom'
-};
 
 let locations = ref<LocationGroup[]>([]);
 
@@ -51,17 +39,6 @@ onMounted(async () => {
 });
 
 let region = ref('Point Cook');
-const handleSwipe = (direction: Swipe) => {
-    if (direction === Swipe.TOP || direction === Swipe.BOTTOM) {
-        return;
-    }
-
-    if (region.value === 'Point Cook') {
-        region.value = 'Werribee';
-    } else {
-        region.value = 'Point Cook';
-    }
-};
 </script>
 
 <style>
@@ -81,25 +58,6 @@ const handleSwipe = (direction: Swipe) => {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
-}
-
-.list-enter-active,
-.list-leave-active {
-    transition: all 0.15s ease;
-}
-
-.list-enter-from.transition-left,
-.list-leave-to.transition-left {
-    transform: translateX(-100vw);
-}
-
-.list-enter-from.transition-right,
-.list-leave-to.transition-right {
-    transform: translateX(100vw);
-}
-
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
+    overflow: hidden;
 }
 </style>

@@ -1,6 +1,6 @@
-import SwipeOptions from "../components/SwipeOptions.vue";
+import RegionOptions from "../components/RegionOptions.vue";
 
-const ThisComponent = SwipeOptions;
+const ThisComponent = RegionOptions;
 
 export default {
   title: 'App/Swipe options',
