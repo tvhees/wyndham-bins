@@ -1,26 +1,3 @@
-<template>
-    <app-header />
-    <div class="sticky">
-        <region-options :options="['Point Cook', 'Werribee']" v-model:selected="region" />
-    </div>
-    <div class="bins-container transition-left" v-if="region === 'Point Cook'">
-        <bin-location
-            v-for="location in locations
-            .filter(location => location.region === 'Point Cook')"
-            :key="location.location"
-            v-bind="location"
-        />
-    </div>
-    <div class="bins-container transition-right" v-else>
-        <bin-location
-            v-for="location in locations
-            .filter(location => location.region === 'Werribee')"
-            :key="location.location"
-            v-bind="location"
-        />
-    </div>
-</template>
-
 <script lang="ts" setup>
 import type { LocationGroup } from "bins";
 import { onMounted, ref } from "vue";
@@ -38,8 +15,32 @@ onMounted(async () => {
         .sort((a, b) => a.location.localeCompare(b.location));
 });
 
-let region = ref('Point Cook');
+const region = ref('Point Cook');
+const binType = ref('');
+const location = ref('');
+const handleBinSelected = (location: string, binType: string) => console.log('Bin Selected', location, binType);
 </script>
+
+<template>
+    <app-header :region="binType && region" :location="location" />
+    <div class="sticky">
+        <region-options
+            v-if="binType"
+            v-model:selected="binType"
+            :options="['Garbage', 'Recycling']"
+        />
+        <region-options v-else v-model:selected="region" :options="['Point Cook', 'Werribee']" />
+    </div>
+    <div class="bins-container" v-if="!binType">
+        <bin-location
+            v-for="location in locations
+            .filter(location => location.region === region)"
+            :key="location.location"
+            v-bind="location"
+            @update:selected="handleBinSelected"
+        />
+    </div>
+</template>
 
 <style>
 .sticky {

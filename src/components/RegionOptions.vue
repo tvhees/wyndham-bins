@@ -25,7 +25,7 @@ const generateId = (option: string) => option.replace(' ', '').toLowerCase();
                 :name="option"
                 :value="option"
                 :checked="props.selected === option"
-                @change="$emit('update:selected', $event.target.value);"
+                @change="$emit('update:selected', $event.target.value)"
             />
             <label :for="generateId(option)">{{ option }}</label>
         </div>

@@ -9,7 +9,12 @@ interface LocationProps {
     recycling?: BinFeature
 }
 
+interface LocationEmits {
+    (e: 'update:selected', location: string, binType: string): void
+}
+
 const props = defineProps<LocationProps>();
+defineEmits<LocationEmits>();
 </script>
 
 <template>
@@ -20,12 +25,14 @@ const props = defineProps<LocationProps>();
             bin-type="garbage"
             :fill-percent="props.garbage.properties.fill_lvl / props.garbage.properties.fill_thres"
             :alert="props.garbage.properties.status === 'ALERT'"
+            @click="$emit('update:selected', location, 'garbage')"
         />
         <bin-button
             v-if="props.recycling"
             bin-type="recycling"
             :fill-percent="props.recycling.properties.fill_lvl / props.recycling.properties.fill_thres"
             :alert="props.recycling.properties.status === 'ALERT'"
+            @click="$emit('update:selected', location, 'recycling')"
         />
     </div>
 </template>
@@ -41,7 +48,6 @@ const props = defineProps<LocationProps>();
     background-color: v-bind("COLOURS.WHITE");
     border-radius: 10px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
-    /* border: 1px solid v-bind("COLOURS.GREY_6"); */
 }
 
 .bin-location > p {
