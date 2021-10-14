@@ -25,14 +25,14 @@ defineEmits<LocationEmits>();
             bin-type="garbage"
             :fill-percent="props.garbage.properties.fill_lvl / props.garbage.properties.fill_thres"
             :alert="props.garbage.properties.status === 'ALERT'"
-            @click="$emit('update:selected', location, 'garbage')"
+            @click="$emit('update:selected', location, 'Garbage')"
         />
         <bin-button
             v-if="props.recycling"
             bin-type="recycling"
             :fill-percent="props.recycling.properties.fill_lvl / props.recycling.properties.fill_thres"
             :alert="props.recycling.properties.status === 'ALERT'"
-            @click="$emit('update:selected', location, 'recycling')"
+            @click="$emit('update:selected', location, 'Recycling')"
         />
     </div>
 </template>

@@ -18,7 +18,10 @@ onMounted(async () => {
 const region = ref('Point Cook');
 const binType = ref('');
 const location = ref('');
-const handleBinSelected = (location: string, binType: string) => console.log('Bin Selected', location, binType);
+const handleBinSelected = (loc: string, type: string) => {
+    binType.value = type;
+    location.value = loc;
+}
 </script>
 
 <template>
