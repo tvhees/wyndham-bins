@@ -16,6 +16,10 @@
         ],
         "typeRoots": [
             "node_modules/@types"
+        ],
+        "types": [
+            "vite/client",
+            "node"
         ]
     },
     "include": [
@@ -23,5 +27,8 @@
         "src/**/*.d.ts",
         "src/**/*.tsx",
         "src/**/*.vue",
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }

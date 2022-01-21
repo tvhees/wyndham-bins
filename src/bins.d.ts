@@ -35,6 +35,7 @@ declare module 'bins' {
         timestamp: string
     }
 
+    type BinTypeKey = 'recycling' | 'garbage'
     interface LocationGroup {
         region: string
         location: string

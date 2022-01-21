@@ -34,4 +34,6 @@ export const groupByLocation = (binFeatures: BinFeatureCollection) => {
         }
         return locations;
     }, {});
-}
+};
+
+export const fillPercentage = (feature: BinFeature) => Math.round(100 * feature.properties.fill_lvl / feature.properties.fill_thres)

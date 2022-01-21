@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { BinFeature } from "bins";
+import type { BinFeature, BinTypeKey } from "bins";
+import { fillPercentage } from "../lib/transform-data"
 import BinButton from "./BinButton.vue";
 import { COLOURS } from "../lib/guidelines";
 
@@ -10,7 +11,7 @@ interface LocationProps {
 }
 
 interface LocationEmits {
-    (e: 'update:selected', location: string, binType: string): void
+    (e: 'update:selected', location: string, binType: BinTypeKey): void
 }
 
 const props = defineProps<LocationProps>();
@@ -23,16 +24,16 @@ defineEmits<LocationEmits>();
         <bin-button
             v-if="props.garbage"
             bin-type="garbage"
-            :fill-percent="props.garbage.properties.fill_lvl / props.garbage.properties.fill_thres"
+            :fill-percent="fillPercentage(props.garbage)"
             :alert="props.garbage.properties.status === 'ALERT'"
-            @click="$emit('update:selected', location, 'Garbage')"
+            @click="$emit('update:selected', location, 'garbage')"
         />
         <bin-button
             v-if="props.recycling"
             bin-type="recycling"
-            :fill-percent="props.recycling.properties.fill_lvl / props.recycling.properties.fill_thres"
+            :fill-percent="fillPercentage(props.recycling)"
             :alert="props.recycling.properties.status === 'ALERT'"
-            @click="$emit('update:selected', location, 'Recycling')"
+            @click="$emit('update:selected', location, 'recycling')"
         />
     </div>
 </template>

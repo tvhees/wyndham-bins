@@ -18,14 +18,14 @@ const generateId = (option: string) => option.replace(' ', '').toLowerCase();
 
 <template>
     <div class="label-container">
-        <div v-for="option in props.options">
+        <div v-for="option in props.options" :key="generateId(option)">
             <input
                 type="radio"
                 :id="generateId(option)"
                 :name="option"
                 :value="option"
                 :checked="props.selected === option"
-                @change="$emit('update:selected', $event.target.value)"
+                @change="$emit('update:selected', ($event.target as HTMLInputElement).value)"
             />
             <label :for="generateId(option)">{{ option }}</label>
         </div>
@@ -67,6 +67,7 @@ label {
     padding: 3px 5px 5px;
     display: block;
     transition: transform 0.1s;
+    text-transform: capitalize;
 }
 
 label:hover,

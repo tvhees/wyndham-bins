@@ -23,8 +23,8 @@ import { COLOURS } from '../lib/guidelines';
 
 const props = defineProps<BinProps>();
 const typeIcon = `#icon-${props.binType}`;
-const fillHeight = `${Math.round(100 * props.fillPercent)}%`;
-const fillColour = props.fillPercent > 0.8 ? COLOURS.ALERT : props.fillPercent > 0.3 ? COLOURS.WARN : COLOURS.SUCCESS;
+const fillHeight = `${props.fillPercent}%`;
+const fillColour = props.fillPercent > 80 ? COLOURS.ALERT : props.fillPercent > 30 ? COLOURS.WARN : COLOURS.SUCCESS;
 </script>
 
 <style>
