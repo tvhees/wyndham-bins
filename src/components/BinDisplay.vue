@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BinFeature } from 'bins';
+import type { BinFeature } from 'bins';
 import { fillPercentage } from '../lib/transform-data';
 import markerIcon from '../icons/map-marker.webp';
 

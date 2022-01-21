@@ -11,7 +11,7 @@ interface LocationProps {
 }
 
 interface LocationEmits {
-    (e: 'update:selected', location: string, binType: BinTypeKey): void
+    (e: 'selected', location: string, binType: BinTypeKey): void
 }
 
 const props = defineProps<LocationProps>();
@@ -26,14 +26,14 @@ defineEmits<LocationEmits>();
             bin-type="garbage"
             :fill-percent="fillPercentage(props.garbage)"
             :alert="props.garbage.properties.status === 'ALERT'"
-            @click="$emit('update:selected', location, 'garbage')"
+            @click="$emit('selected', location, 'garbage')"
         />
         <bin-button
             v-if="props.recycling"
             bin-type="recycling"
             :fill-percent="fillPercentage(props.recycling)"
             :alert="props.recycling.properties.status === 'ALERT'"
-            @click="$emit('update:selected', location, 'recycling')"
+            @click="$emit('selected', location, 'recycling')"
         />
     </div>
 </template>

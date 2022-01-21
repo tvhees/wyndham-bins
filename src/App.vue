@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BinFeatureCollection, LocationGroup, BinTypeKey, BinFeature } from "bins";
+import type { BinFeatureCollection, LocationGroup, BinTypeKey, BinFeature } from "bins";
 import { computed, onMounted, ref } from "vue";
 import "./global.css";
 import AppHeader from "./components/AppHeader.vue";
@@ -66,7 +66,7 @@ const binData = computed(() => {
             .filter(location => location.region === region)"
             :key="location.location"
             v-bind="location"
-            @update:selected="handleBinSelected"
+            @selected="handleBinSelected"
         />
     </div>
 </template>
