@@ -35,7 +35,7 @@ const zoom = 18;
             </ol-source-vector>
         </ol-vector-layer>
     </ol-map>
-    <div>chart: {{ timeSeries }}</div>
+    <!-- <div>chart: {{ timeSeries }}</div> -->
 </template>
 
 <style>

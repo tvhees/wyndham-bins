@@ -11,8 +11,10 @@ const props = defineProps<HeaderProps>();
 
 <template>
     <header>
-        <h1>{{ props.region || 'Wyndham' }}</h1>
-        <p>{{ (props.region && props.location) || 'Smart Bins' }}</p>
+        <a @click="() => $emit('click')">
+            <h1>{{ props.region || 'Wyndham' }}</h1>
+            <p>{{ (props.region && props.location) || 'Smart Bins' }}</p>
+        </a>
     </header>
 </template>
 

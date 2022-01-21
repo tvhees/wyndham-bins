@@ -48,7 +48,7 @@ const binData = computed(() => {
 </script>
 
 <template>
-    <app-header :region="binType && region" :location="location" />
+    <app-header :region="binType && region" :location="location" @click="() => binType = ''" />
     <div class="sticky">
         <region-options
             v-if="binType"
