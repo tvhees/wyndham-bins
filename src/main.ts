@@ -1,6 +1,7 @@
 import { createApp } from "vue"
 import Vue3TouchEvents from "vue3-touch-events"
 import App from "./App.vue"
+// @ts-ignore
 import OpenLayersMap from 'vue3-openlayers'
 import 'vue3-openlayers/dist/vue3-openlayers.css'
 const svgs = import.meta.globEager('./icons/*.svg');
