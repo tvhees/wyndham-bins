@@ -18,7 +18,7 @@ export const fetchHistoricalData = async (): Promise<BinProperties[]> => {
         feature => feature.properties
     ).sort(
         (a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp)
-    ).slice(0, 23);
+    ).slice(0, 25);
 
     return data;
 };
