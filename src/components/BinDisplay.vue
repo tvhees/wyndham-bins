@@ -40,7 +40,8 @@ const zoom = 18;
 
 <style>
 #map {
-    height: 400px;
+    max-width: 400px;
+    width: 80%;
     aspect-ratio: 1;
     margin: auto;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
