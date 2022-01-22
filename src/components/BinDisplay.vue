@@ -83,6 +83,7 @@ const yGap = 1.4;
     display: flex;
     flex-flow: row wrap;
     gap: 20px;
+    padding-bottom: 30px;
 }
 
 #map,
